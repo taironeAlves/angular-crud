@@ -1,0 +1,22 @@
+<div class="clients-container">
+  @if (clients) {
+    @for (client of clients; track client.id_client) {
+      <mat-card class="client-card">
+        <mat-card-title>{{ client.name }}</mat-card-title>
+        <mat-card-content>
+          <p><strong>ID:</strong> {{ client.id_client }}</p>
+          <p><strong>Email:</strong> {{ client.email }}</p>
+          <p><strong>Endereço:</strong> {{ client.address }}</p>
+        </mat-card-content>
+      </mat-card>
+    } @empty {
+      <p>Nenhum cliente cadastrado.</p>
+    }
+  } @else {
+    <p>Carregando clientes...</p>
+  }
+</div>
+  <button mat-raised-button color="warn" (click)="logout()">
+    Logout
+  </button>
+ 

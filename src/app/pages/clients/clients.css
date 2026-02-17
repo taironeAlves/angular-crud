@@ -1,0 +1,15 @@
+.clients-actions {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.clients-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.client-card {
+  width: 300px;
+}
