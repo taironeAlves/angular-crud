@@ -4,9 +4,10 @@ import { Observable } from 'rxjs';
 
 export interface Client {
   id_client: number;
-  name: string;
+  razao_social?: string | null;
+  cnpj?: string | null;
   email: string;
-  address: string;
+  address?: string | null;
 }
 
 @Injectable({
@@ -20,5 +21,17 @@ export class ClientsService {
 
   get_clients(): Observable<Client[]> {
     return this.http.get<Client[]>(this.api_url);
+  }
+
+  create_client(client: Partial<Client>): Observable<Client> {
+    return this.http.post<Client>(this.api_url, client);
+  }
+
+  update_client(id: number, client: Partial<Client>): Observable<Client> {
+    return this.http.put<Client>(`${this.api_url}/${id}`, client);
+  }
+
+  delete_client(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.api_url}/${id}`);
   }
 }

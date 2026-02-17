@@ -2,8 +2,10 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ClientsService, Client } from '../../core/clients';
+import { ClientFormComponent } from './client-form/client-form';
 
 @Component({
   selector: 'app-clients',
@@ -12,23 +14,48 @@ import { ClientsService, Client } from '../../core/clients';
   imports: [
     CommonModule,
     MatButtonModule,
-    MatCardModule
+    MatTableModule,
+    MatDialogModule
   ]
 })
 export class ClientsComponent {
-  clients: Client[] | undefined;
+  clients: Client[] = [];
+  displayedColumns = ['id_client', 'razao_social', 'cnpj', 'email', 'address', 'actions'];
+
   private clientsService = inject(ClientsService);
   private router = inject(Router);
+  private dialog = inject(MatDialog);
 
   ngOnInit() {
+    this.loadClients();
+  }
+
+  loadClients() {
     this.clientsService.get_clients().subscribe({
       next: (data) => this.clients = data,
-      error: (err: any) => console.error('Error fetching clients', err)
+      error: (err) => console.error('Error fetching clients', err)
     });
   }
 
   logout() {
     localStorage.removeItem('access_token');
     this.router.navigate(['/login']);
+  }
+
+  trackById(index: number, client: Client) {
+    return client.id_client;
+  }
+
+  openClientForm(client?: Client) {
+    const dialogRef = this.dialog.open(ClientFormComponent, {
+      width: '400px',
+      data: client ? { client } : null
+    });
+
+    dialogRef.afterClosed().subscribe((result: Client | undefined) => {
+      if (result) {
+        this.loadClients();
+      }
+    });
   }
 }

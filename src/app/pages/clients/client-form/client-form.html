@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>{{ data?.client ? 'Editar Cliente' : 'Novo Cliente' }}</h2>
+
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Razão Social</mat-label>
+    <input matInput formControlName="razao_social" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>CNPJ</mat-label>
+    <input matInput formControlName="cnpj" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Endereço</mat-label>
+    <input matInput formControlName="address" />
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="submitting">
+    {{ data?.client ? 'Atualizar' : 'Criar' }}
+  </button>
+</mat-dialog-actions>

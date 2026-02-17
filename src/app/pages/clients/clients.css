@@ -5,11 +5,10 @@
 }
 
 .clients-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+  overflow-x: auto;
+  margin-top: 16px;
 }
 
-.client-card {
-  width: 300px;
+table {
+  width: 100%;
 }
