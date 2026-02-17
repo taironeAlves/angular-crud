@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ClientsService, Client } from '../../core/clients';
 import { ClientFormComponent } from './client-form/client-form';
@@ -20,6 +20,7 @@ import { ClientFormComponent } from './client-form/client-form';
 })
 export class ClientsComponent {
   clients: Client[] = [];
+  dataSource = new MatTableDataSource<Client>();
   displayedColumns = ['id_client', 'razao_social', 'cnpj', 'email', 'address', 'actions'];
 
   private clientsService = inject(ClientsService);
@@ -32,7 +33,10 @@ export class ClientsComponent {
 
   loadClients() {
     this.clientsService.get_clients().subscribe({
-      next: (data) => this.clients = data,
+      next: (data) => {
+        this.clients = data;
+        this.dataSource.data = data;
+      },
       error: (err) => console.error('Error fetching clients', err)
     });
   }
@@ -49,12 +53,12 @@ export class ClientsComponent {
   openClientForm(client?: Client) {
     const dialogRef = this.dialog.open(ClientFormComponent, {
       width: '400px',
-      data: client ? { client } : null
+      data: client ? { client } : {}
     });
 
-    dialogRef.afterClosed().subscribe((result: Client | undefined) => {
+    dialogRef.afterClosed().subscribe((result: boolean | undefined) => {
       if (result) {
-        this.loadClients();
+        this.loadClients(); 
       }
     });
   }

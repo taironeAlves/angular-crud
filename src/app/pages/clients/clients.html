@@ -4,7 +4,7 @@
 </div>
 
 <div class="clients-container" *ngIf="clients && clients.length > 0; else noClients">
-  <table mat-table [dataSource]="clients" class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
     <!-- ID -->
     <ng-container matColumnDef="id_client">
@@ -45,9 +45,8 @@
       </td>
     </ng-container>
 
-    <!-- Rows -->
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns; trackBy: trackById;"></tr>
   </table>
 </div>
 
