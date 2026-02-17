@@ -44,7 +44,13 @@ export class LoginComponent {
 
         this.auth_service.save_token(token);
 
-        this.router.navigate(['/clients']);
+        const isAdmin = this.auth_service.is_admin();
+
+        if (isAdmin) {
+          this.router.navigate(['/clients']);
+        } else {
+          this.router.navigate(['/products']);
+        }
       },
       error: (err) => {
         console.error('Login error', err);

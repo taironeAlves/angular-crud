@@ -1,0 +1,18 @@
+.orders-container {
+  padding: 20px;
+}
+
+.orders-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.orders-table-container {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+}

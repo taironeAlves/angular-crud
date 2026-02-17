@@ -1,0 +1,66 @@
+<h2 mat-dialog-title>{{ data.viewOnly ? 'Visualizar Pedido' : (data.order ? 'Adicionar Produtos ao Pedido' : 'Novo Pedido') }}</h2>
+
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field appearance="fill" class="full-width" *ngIf="isAdmin">
+    <mat-label>Cliente</mat-label>
+    <mat-select formControlName="id_client">
+      <mat-option *ngFor="let client of clients" [value]="client.id_client">
+        {{ client.razao_social || client.email }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('id_client')?.hasError('required')">
+      Cliente é obrigatório
+    </mat-error>
+  </mat-form-field>
+
+  <div class="items-section">
+    <h3>Produtos</h3>
+
+    <div formArrayName="items">
+      <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" class="item-row">
+        <mat-form-field appearance="fill" class="item-product">
+          <mat-label>Produto</mat-label>
+          <mat-select formControlName="id_product">
+            <mat-option *ngFor="let product of products" [value]="product.id_product">
+              {{ product.name }} - {{ product.price | currency:'BRL' }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="item.get('id_product')?.hasError('required')">
+            Produto é obrigatório
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="item-quantity">
+          <mat-label>Quantidade</mat-label>
+          <input matInput type="number" formControlName="quantity" />
+          <mat-error *ngIf="item.get('quantity')?.hasError('required')">
+            Obrigatório
+          </mat-error>
+          <mat-error *ngIf="item.get('quantity')?.hasError('min')">
+            Mín: 1
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="item-price">
+          <mat-label>Preço</mat-label>
+          <input matInput type="number" formControlName="price" readonly />
+        </mat-form-field>
+
+        <button mat-icon-button color="warn" type="button" (click)="removeItem(i)" *ngIf="!data.order">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <button mat-button color="primary" type="button" (click)="addItem()" *ngIf="!data.viewOnly">
+      + Adicionar Produto
+    </button>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">{{ data.viewOnly ? 'Fechar' : 'Cancelar' }}</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="submitting" *ngIf="!data.viewOnly">
+    {{ data.order ? 'Adicionar Produtos' : 'Criar Pedido' }}
+  </button>
+</mat-dialog-actions>

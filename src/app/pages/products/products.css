@@ -1,0 +1,18 @@
+.products-container {
+  padding: 20px;
+}
+
+.products-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.products-table-container {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+}

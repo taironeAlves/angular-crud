@@ -8,6 +8,7 @@ export interface Client {
   cnpj?: string | null;
   email: string;
   address?: string | null;
+  password?: string;
 }
 
 @Injectable({
@@ -29,6 +30,10 @@ export class ClientsService {
 
   update_client(id: number, client: Partial<Client>): Observable<Client> {
     return this.http.put<Client>(`${this.api_url}/${id}`, client);
+  }
+
+  update_client_password(id: number, client: Partial<Client>): Observable<Client> {
+    return this.http.patch<Client>(`${this.api_url}/${id}`, client);
   }
 
   delete_client(id: number): Observable<void> {

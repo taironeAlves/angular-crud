@@ -1,0 +1,22 @@
+.full-width {
+  width: 100%;
+}
+
+.cnpj-field-container {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.cnpj-field-container mat-form-field {
+  flex: 1;
+}
+
+.cnpj-field-container button {
+  margin-top: 8px;
+  white-space: nowrap;
+}
+
+mat-dialog-content {
+  padding-top: 20px;
+}
